@@ -1,0 +1,4 @@
+[submodule "images/docker-raspberrypi-cross-dev-env"]
+	path = images/docker-raspberrypi-cross-dev-env
+	url = https://github.com/thommyho/docker-raspberrypi-cross-dev-env.git
+	branch = main
