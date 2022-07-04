@@ -2,3 +2,7 @@
 	path = images/docker-raspberrypi-cross-dev-env
 	url = https://github.com/thommyho/docker-raspberrypi-cross-dev-env.git
 	branch = main
+[submodule "vendor-scripts/vscode-dev-containers"]
+	path = vendor-scripts/vscode-dev-containers
+	url = https://github.com/microsoft/vscode-dev-containers.git
+	branch = main
