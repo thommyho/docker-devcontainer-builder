@@ -4,7 +4,7 @@
 		"dockerfile": "Dockerfile",
 		"args": { "VARIANT": "latest" }
 	},
-	"runArgs": ["--init","--privileged"],
+	"runArgs": [],
 	"overrideCommand": false,
 	// Configure tool-specific properties.
 	"customizations": {
@@ -12,8 +12,6 @@
 		"vscode": {
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
-				"ms-azuretools.vscode-docker",
-				"formulahendry.docker-explorer"
 			]
 		}
 	},

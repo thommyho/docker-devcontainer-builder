@@ -1,5 +1,5 @@
 ARG VARIANT=latest
-FROM thommyho1988/docker-devcontainer-builder-ubuntu2004:${VARIANT}
+FROM thommyho1988/base-python-node:${VARIANT}
 
 USER vscode
 
