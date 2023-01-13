@@ -3,11 +3,24 @@ FROM ubuntu:20.04
 # Set username, password, uid and guid
 ARG USERNAME=vscode
 ARG PASSWORD=vscode
-ARG CONAN_VERSION=1.49.0
 ARG USER_UID=1001
 ARG USER_GID=$USER_UID
 ENV HOME=/home/${USERNAME}
+
 ENV DOCKER_BUILDKIT=1
+
+ENV NVM_DIR="/usr/local/share/nvm"
+ENV NVM_SYMLINK_CURRENT=true \
+PATH=${NVM_DIR}/current/bin:${PATH}
+
+ARG PYTHON_PATH=/usr/local/python
+ENV PIPX_HOME=/usr/local/py-utils \
+    PIPX_BIN_DIR=/usr/local/py-utils/bin
+ENV PATH=${PYTHON_PATH}/bin:${PATH}:${PIPX_BIN_DIR}
+ENV GOROOT=/usr/local/go \
+    GOPATH=/go
+ENV PATH=${GOPATH}/bin:${GOROOT}/bin:${PATH}
+
 
 # Config shell
 ARG INSTALL_ZSH="true"
@@ -20,6 +33,9 @@ COPY script-library/common-debian.sh \
     script-library/git-lfs-debian.sh \
     script-library/git-flow-debian.sh \
     script-library/docker-in-docker-debian.sh \
+    script-library/node-debian.sh \
+    script-library/python-debian.sh \
+    script-library/go-debian.sh \
     /tmp/library-scripts/
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -27,6 +43,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && if [ "$INSTALL_ZSH" = "true" ]; then usermod --shell /bin/zsh ${USERNAME}; fi \
     && bash /tmp/library-scripts/git-lfs-debian.sh \
     && /bin/bash /tmp/library-scripts/docker-in-docker-debian.sh \
+    && bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "18" \
+    && bash /tmp/library-scripts/go-debian.sh "latest" "${GOROOT}" "${GOPATH}" \
+    && bash /tmp/library-scripts/python-debian.sh "3.11.1" "${PYTHON_PATH}" "${PIPX_HOME}" \
     && bash /tmp/library-scripts/git-flow-debian.sh "/usr/local" "gitflow" "https://github.com/petervanderdoes/gitflow-avh.git" "install" "stable" \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts 
 
